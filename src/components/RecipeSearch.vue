@@ -44,6 +44,13 @@
       v-bind:key="recp"
       >
         <v-expansion-panel-header>
+          <v-img
+              max-width="64px"
+              max-height="64px"
+              v-bind:src="getImageSrc(recp.name)"
+          >
+
+          </v-img>
           {{recp.name}}
           <v-spacer />
           {{recp.machine_name}}:  {{recp.amount_factory_required}}
@@ -100,6 +107,9 @@ export default {
         mining_research_modifier: 0
       },
       results: {},
+      imgSrc:{
+
+      },
 
       pannelOpened: []
     }
@@ -135,11 +145,9 @@ export default {
       axios.post(apiUrl+"/calc/",pData).then(resp => this.results = resp.data)
     },
 
-    // getImageSrc(rname) {
-    //   let to_return = null;
-    //   axios.get(apiUrl+"/icon_url/"+rname).then(resp => to_return = resp)
-    //   return to_return
-    // }
+    getImageSrc(rname) {
+      axios.get(apiUrl+"/icon_url/"+rname).then(resp => this.imgSrc.rname=resp.data)
+    }
 
 
   },
