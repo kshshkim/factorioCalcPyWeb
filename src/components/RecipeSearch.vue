@@ -41,13 +41,15 @@
     >
       <v-expansion-panel
       v-for="recp in results.recipe"
-      v-bind:key="recp"
+      v-bind:key="recp.name"
       >
         <v-expansion-panel-header>
           <v-img
-              max-width="64px"
-              max-height="64px"
-              v-bind:src="getImageSrc(recp.name)"
+              max-width="32px"
+              max-height="32px"
+              v-bind:src="imgSrc[recp.name]"
+
+              ref="imgs"
           >
 
           </v-img>
@@ -67,6 +69,7 @@
 
 
 <script>
+
 const axios = require('axios');
 const apiUrl = "https://a.privatelaw.net";
 // const cdnUrl = "https://cdn.privatelaw.net";
@@ -74,6 +77,7 @@ const apiUrl = "https://a.privatelaw.net";
 //
 //
 // }
+
 
 function buildForm(Config){
 
@@ -107,15 +111,21 @@ export default {
         mining_research_modifier: 0
       },
       results: {},
+      protoResults: {},
       imgSrc:{
-
+        "advanced-circuit": "https://cdn.privatelaw.net/icons/advanced-circuit.png"
       },
-
       pannelOpened: []
     }
   },
   watch:{
+    protoResults () {
+      for(let brother in this.protoResults.recipe){
+        this.imgSrc[brother] = this.getImgSrc(brother);
+      }
+      this.results = this.protoResults
 
+    },
     search () {
       if (this.items.length > 0) return
         fetch(apiUrl+"/recipe_list")
@@ -127,29 +137,27 @@ export default {
               console.log(err)
             })
             .finally(() => (this.isLoading = false))
-
-
-
-    }
-  },
-  methods:{
-    // loadRecipeList(){
-      // this.loading = true;
-      // axios.get(apiUrl+"/recipe_list").then(resp => this.items = resp.data)
-      // this.loading = false;
-    // },
-
-    sendCalcAPIRequest() {
-      let pData = buildForm(this.conf)
-      console.log(pData)
-      axios.post(apiUrl+"/calc/",pData).then(resp => this.results = resp.data)
     },
 
-    getImageSrc(rname) {
-      axios.get(apiUrl+"/icon_url/"+rname).then(resp => this.imgSrc.rname=resp.data)
+    // results () {
+    //   for(let brother in this.results.recipe){
+    //     this.imgSrc[brother] = this.getImgSrc(brother)}
+    //
+    // }
+  },
+  methods:{
+    sendCalcAPIRequest() {
+      let pData = buildForm(this.conf)
+      axios.post(apiUrl+"/calc/",pData).then(resp => {
+        this.protoResults = resp.data;
+      })
+    },
+
+    getImgSrc(rname) {
+      axios.get(apiUrl+"/icon_url/"+rname).then(resp => {
+        this.imgSrc[rname] = resp.data;
+      })
     }
-
-
   },
 
 
