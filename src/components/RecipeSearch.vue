@@ -5,6 +5,7 @@
         :loading="loading"
         :items="items"
         :search-input.sync="search"
+
         cache-items
         class="mx-4"
         flat
@@ -28,7 +29,7 @@
     </v-text-field>
 
     <v-btn
-    v-on:click="sendCalcAPIRequest"
+    v-on:click="resultsConfirm"
     >
     <div>
       Get Results
@@ -119,13 +120,7 @@ export default {
     }
   },
   watch:{
-    protoResults () {
-      for(let brother in this.protoResults.recipe){
-        this.imgSrc[brother] = this.getImgSrc(brother);
-      }
-      this.results = this.protoResults
 
-    },
     search () {
       if (this.items.length > 0) return
         fetch(apiUrl+"/recipe_list")
@@ -139,13 +134,20 @@ export default {
             .finally(() => (this.isLoading = false))
     },
 
-    // results () {
-    //   for(let brother in this.results.recipe){
-    //     this.imgSrc[brother] = this.getImgSrc(brother)}
-    //
-    // }
+    conf () {
+      this.sendCalcAPIRequest();
+      for(let asds in this.protoResults.recipe){
+        this.getImgSrc(asds.name);
+      }
+
+    }
+
   },
   methods:{
+    resultsConfirm(){
+      this.results = this.protoResults;
+    },
+
     sendCalcAPIRequest() {
       let pData = buildForm(this.conf)
       axios.post(apiUrl+"/calc/",pData).then(resp => {
