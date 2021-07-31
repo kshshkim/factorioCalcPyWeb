@@ -133,7 +133,7 @@ export default {
 
     sendCalcAPIRequest() {
       let pData = buildForm(this.conf)
-      axios.post(apiUrl+"/calc/",pData).then(resp => {
+      axios.post(apiUrl+"/calc",pData).then(resp => {
         this.results = resp.data;
       });
     },
