@@ -29,7 +29,7 @@
     </v-text-field>
 
     <v-btn
-    v-on:click="resultsConfirm"
+    v-on:click="sendCalcAPIRequest"
     >
     <div>
       Get Results
@@ -48,7 +48,7 @@
           <v-img
               max-width="32px"
               max-height="32px"
-              v-bind:src="imgSrc[recp.name]"
+              :src="`https://cdn.privatelaw.net/icons/`+recp.name+`.png`"
 
               ref="imgs"
           >
@@ -73,11 +73,6 @@
 
 const axios = require('axios');
 const apiUrl = "https://a.privatelaw.net";
-// const cdnUrl = "https://cdn.privatelaw.net";
-// function getIconURL(nameToFind){
-//
-//
-// }
 
 
 function buildForm(Config){
@@ -113,9 +108,6 @@ export default {
       },
       results: {},
       protoResults: {},
-      imgSrc:{
-        "advanced-circuit": "https://cdn.privatelaw.net/icons/advanced-circuit.png"
-      },
       pannelOpened: []
     }
   },
@@ -131,38 +123,21 @@ export default {
             .catch(err => {
               console.log(err)
             })
-            .finally(() => (this.isLoading = false))
+            // .finally(() => (this.isLoading = false))
     },
-
-    conf () {
-      this.sendCalcAPIRequest();
-      for(let asds in this.protoResults.recipe){
-        this.getImgSrc(asds.name);
-      }
-
-    }
+  },
+  computed:{
 
   },
   methods:{
-    resultsConfirm(){
-      this.results = this.protoResults;
-    },
 
     sendCalcAPIRequest() {
       let pData = buildForm(this.conf)
       axios.post(apiUrl+"/calc/",pData).then(resp => {
-        this.protoResults = resp.data;
-      })
+        this.results = resp.data;
+      });
     },
-
-    getImgSrc(rname) {
-      axios.get(apiUrl+"/icon_url/"+rname).then(resp => {
-        this.imgSrc[rname] = resp.data;
-      })
-    }
   },
-
-
 }
 </script>
 
