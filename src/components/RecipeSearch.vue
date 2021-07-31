@@ -73,12 +73,13 @@
 
 const axios = require('axios');
 const apiUrl = "https://a.privatelaw.net";
+const randID = Math.random();
 
 
 function buildForm(Config){
 
   let toReturn = {
-    rand_id: 0.123,
+    rand_id: randID,
     conf: {
       recipe_name: Config.recipe_name,
       amount: Config.amount,
