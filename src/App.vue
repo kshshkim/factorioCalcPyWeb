@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      <RecipeSearch />
+      <asdf />
     </v-main>
   </v-app>
 </template>
@@ -17,12 +17,14 @@
 // <asdf />
 // <RecipeSearch />
 
-import RecipeSearch from "@/components/RecipeSearch";
+// import RecipeSearch from "@/components/RecipeSearch";
+import asdf from "@/components/asdf";
 export default {
   name: 'App',
 
   components: {
-    RecipeSearch
+    asdf
+    // RecipeSearch
   },
 
   data: () => ({
