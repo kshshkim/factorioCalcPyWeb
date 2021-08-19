@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      <asdf />
+      <CalcMain />
     </v-main>
   </v-app>
 </template>
@@ -18,12 +18,12 @@
 // <RecipeSearch />
 
 // import RecipeSearch from "@/components/RecipeSearch";
-import asdf from "@/components/asdf";
+import CalcMain from "@/components/CalcMain";
 export default {
   name: 'App',
 
   components: {
-    asdf
+    CalcMain
     // RecipeSearch
   },
 

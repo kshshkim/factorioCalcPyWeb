@@ -57,20 +57,11 @@
                       <v-col
                           cols="auto"
                       >
-                        <v-btn
-                            @click.native.stop="doSomething(i.name)"
-                            :elevation="0"
+                        <ChangeMachine
+                        :current-machine="i.machine_name"
+                        :recipe-name="i.name"
                         >
-                          <v-img
-                              max-width="24px"
-                              min-width="16px"
-                              max-height="24px"
-                              min-height="16px"
-                              :src="`https://cdn.privatelaw.net/icons/`+i.machine_name+`.png`"
-                              class="pr-0"
-                          >
-                        </v-img>
-                        </v-btn>
+                        </ChangeMachine>
                       </v-col>
                       <v-col
                       align-self="center"
@@ -84,6 +75,7 @@
             </v-list-item-content>
 
           </v-list-item>
+
           </v-list-item-group>
 
 
@@ -91,12 +83,13 @@
 
       </v-col>
       <v-divider
+          v-model="isAbleToVisualize"
           vertical
       ></v-divider>
       <v-col
       cols="auto">
         <v-card>
-          here goes details
+          {{listSelectedRecipeName}}
         </v-card>
       </v-col>
     </v-row>
@@ -105,7 +98,8 @@
 
 
 <script>
-import ModifierForms from "@/components/modifierForms";
+import ModifierForms from "@/components/ModifierForms";
+import ChangeMachine from "@/components/ChangeMachine";
 
 const axios = require('axios');
 const apiUrl = "https://a.privatelaw.net";
@@ -160,6 +154,7 @@ export default {
   },
   components: {
     ModifierForms,
+    ChangeMachine
   },
   watch:{
     listSelectedIndex(){

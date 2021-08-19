@@ -51,7 +51,7 @@
 const apiUrl = "https://a.privatelaw.net";
 
 export default {
-  name: "autocomp",
+  name: "RecipeSelector",
   watch: {
     search() {
       if (this.items.length > 0) return

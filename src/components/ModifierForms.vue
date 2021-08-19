@@ -2,7 +2,7 @@
   <v-form
   ref="form"
   >
-    <autocomp @onAutoCompSelect="onAutoCompSelect"/>
+    <RecipeSelector @onAutoCompSelect="onAutoCompSelect"/>
     <v-text-field
     v-model="amount"
     :label="`Amount`"
@@ -21,13 +21,13 @@
 </template>
 
 <script>
-import autocomp from "@/components/autocomp";
+import RecipeSelector from "@/components/RecipeSelector";
 
 export default {
   name: "modifierForms",
 
   components:{
-    autocomp
+    RecipeSelector
   },
 
   data() {
