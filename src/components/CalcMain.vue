@@ -173,6 +173,7 @@ export default {
     onGetResultButtonClick() {
       this.conf.recipe_name = this.selectedRecipe;
       this.listSelectedIndex = null;
+      this.listSelectedRecipeName = null;
       this.isAbleToVisualize = true;
       this.sendCalcAPIRequest();
     },
