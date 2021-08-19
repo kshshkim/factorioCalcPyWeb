@@ -174,6 +174,7 @@ export default {
       this.conf.recipe_name = this.selectedRecipe;
       this.listSelectedIndex = null;
       this.listSelectedRecipeName = null;
+      this.results = {};
       this.isAbleToVisualize = true;
       this.sendCalcAPIRequest();
     },
@@ -182,7 +183,7 @@ export default {
       let pData = buildForm(this.conf)
       axios.post(apiUrl+"/calc",pData).then(resp => {
         this.results = resp.data;
-        this.recipeKeyList = Object.keys(this.results.recipe);
+        this.updateRecipeKeyList();
       });
     },
 
