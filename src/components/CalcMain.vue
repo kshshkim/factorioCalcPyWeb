@@ -7,7 +7,7 @@
     </v-row>
     <v-row>
       <v-col
-        class="mt-n7"
+          class="mt-n7"
       >
         <v-btn
             @click="onGetResultButtonClick"
@@ -24,93 +24,103 @@
       </v-col>
 
     </v-row>
-    <v-row>
+    <v-row
+        class="mx-0 px-0"
+    >
       <v-divider
-        v-if="isAbleToVisualize"
+          v-if="isAbleToVisualize"
       />
     </v-row>
 
-    <v-row
-        class="flex-nowrap"
+    <v-container
+        class="mt-3"
+        style="overflow-x:auto; white-space: nowrap;"
     >
-      <v-col
-          cols="auto"
+
+      <v-row
+          class="flex-nowrap"
       >
 
-        <v-card
-            tile
+        <v-col
+            cols="auto"
         >
-          <v-list-item-group
-              v-model="listSelectedIndex"
-              mandatory
+
+          <v-card
+              tile
           >
-
-            <v-list-item
-                v-for="i in results.recipe"
-                :key="i.name"
+            <v-list-item-group
+                v-model="listSelectedIndex"
+                mandatory
             >
-              <v-list-item-content>
-                <v-row>
-                  <v-col
-                      cols="auto"
-                  >
-                    <v-img
-                        max-width="32px"
-                        min-width="32px"
-                        max-height="32px"
-                        min-height="32px"
-                        :src="`https://cdn.privatelaw.net/icons/`+i.name+`.png`"
+
+              <v-list-item
+                  v-for="i in results.recipe"
+                  :key="i.name"
+              >
+                <v-list-item-content>
+                  <v-row>
+                    <v-col
+                        cols="auto"
                     >
-                    </v-img>
-                  </v-col>
-                  <v-col>
-                    <v-list-item-title>{{ i.name }}</v-list-item-title>
-                    <v-list-item-subtitle
-                        virtical-align="center"
-                    >
-                      <v-row
+                      <v-img
+                          max-width="32px"
+                          min-width="32px"
+                          max-height="32px"
+                          min-height="32px"
+                          :src="`https://cdn.privatelaw.net/icons/`+i.name+`.png`"
                       >
-                        <v-col
-                            cols="auto"
+                      </v-img>
+                    </v-col>
+                    <v-col>
+                      <v-list-item-title>{{ i.name }}</v-list-item-title>
+                      <v-list-item-subtitle
+                          virtical-align="center"
+                      >
+                        <v-row
                         >
-                          <ChangeMachine
-                              :current-machine="i.machine_name"
-                              :recipe-name="i.name"
+                          <v-col
+                              cols="auto"
                           >
-                          </ChangeMachine>
-                        </v-col>
-                        <v-col
-                            align-self="center"
-                        >
-                          x {{ i.amount_factory_required }}
-                        </v-col>
-                      </v-row>
-                    </v-list-item-subtitle>
-                  </v-col>
-                </v-row>
-              </v-list-item-content>
+                            <ChangeMachine
+                                :current-machine="i.machine_name"
+                                :recipe-name="i.name"
+                            >
+                            </ChangeMachine>
+                          </v-col>
+                          <v-col
+                              align-self="center"
+                          >
+                            x {{ i.amount_factory_required }}
+                          </v-col>
+                        </v-row>
+                      </v-list-item-subtitle>
+                    </v-col>
+                  </v-row>
+                </v-list-item-content>
 
-            </v-list-item>
+              </v-list-item>
 
-          </v-list-item-group>
+            </v-list-item-group>
 
 
-        </v-card>
+          </v-card>
 
-      </v-col>
-      <v-divider
-          v-if="isAbleToVisualize"
-          vertical
-      ></v-divider>
-      <v-col
-      >
-        <ProcessBlockDetail
-          v-if="isAbleToVisualize && listSelectedRecipeObject !== null && listSelectedRecipeName !== null"
-          :selected-recipe-info="listSelectedRecipeObject"
-        />
-      </v-col>
-    </v-row>
+        </v-col>
+        <v-divider
+            v-if="isAbleToVisualize"
+            vertical
+        ></v-divider>
+        <v-col
+            cols="auto"
+        >
+          <ProcessBlockDetail
 
+              v-if="isAbleToVisualize && listSelectedRecipeObject !== null && listSelectedRecipeName !== null"
+              :selected-recipe-info="listSelectedRecipeObject"
+          />
+        </v-col>
+      </v-row>
+    </v-container>
   </v-container>
 </template>
 

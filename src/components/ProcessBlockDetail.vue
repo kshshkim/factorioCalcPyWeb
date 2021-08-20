@@ -1,7 +1,9 @@
 <template>
   <v-card
+      class="pr-7"
   >
-    <v-container>
+    <v-container
+    >
       <v-row
       >
         <v-col
@@ -45,17 +47,17 @@
           </v-btn>
         </v-col>
         <v-col
-
+          class="pr-0"
         >
-          <p>
+          <p
+            style="word-break: break-all;"
+          >
             <b>Factory Name</b> : {{ SelectedRecipeInfo.machine_name }} <br>
             <b>Factory Amount</b> : {{ SelectedRecipeInfo.amount_factory_required }} <br>
             <b>Added Modules</b> : <br>
             <b>Speed Rate</b> : {{ SelectedRecipeInfo.speed_rate }} <br>
             <b>Base Speed Rate</b> : {{ SelectedRecipeInfo.base_speed_rate }} <br>
             <b>Total Power Consumption</b> : {{ SelectedRecipeInfo.total_power_consumption }} <br>
-
-
           </p>
         </v-col>
       </v-row>
