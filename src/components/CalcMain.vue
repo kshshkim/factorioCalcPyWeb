@@ -2,79 +2,95 @@
   <v-container>
     <v-row>
       <v-col>
-      <modifier-forms @onEmitThings="onEmitThings"/>
+        <modifier-forms @onEmitForm="onEmitForm"/>
       </v-col>
     </v-row>
     <v-row>
-      <v-btn
-          @click="onGetResultButtonClick"
-          :disabled="!isTheFormValid"
+      <v-col
+        class="mt-n7"
       >
-        get results</v-btn>
-      <v-btn
-          @click="visualizeNewWindow"
-          :disabled="!isAbleToVisualize"
-      >
-        visualize</v-btn>
+        <v-btn
+            @click="onGetResultButtonClick"
+            :disabled="!isTheFormValid"
+        >
+          get results
+        </v-btn>
+        <v-btn
+            @click="visualizeNewWindow"
+            :disabled="!isAbleToVisualize"
+        >
+          visualize
+        </v-btn>
+      </v-col>
+
     </v-row>
     <v-row>
+      <v-divider
+        v-if="isAbleToVisualize"
+      />
+    </v-row>
+
+    <v-row
+        class="flex-nowrap"
+    >
       <v-col
-      cols="auto"
+          cols="auto"
       >
 
         <v-card
-        tile
+            tile
         >
           <v-list-item-group
-          v-model="listSelectedIndex"
+              v-model="listSelectedIndex"
+              mandatory
           >
 
-          <v-list-item
-          v-for="i in results.recipe"
-          :key="i.name"
-          >
-            <v-list-item-content>
-              <v-row>
-                <v-col
-                    cols="auto"
-                >
-                  <v-img
-                      max-width="32px"
-                      min-width="32px"
-                      max-height="32px"
-                      min-height="32px"
-                      :src="`https://cdn.privatelaw.net/icons/`+i.name+`.png`"
+            <v-list-item
+                v-for="i in results.recipe"
+                :key="i.name"
+            >
+              <v-list-item-content>
+                <v-row>
+                  <v-col
+                      cols="auto"
                   >
-                  </v-img>
-                </v-col>
-                <v-col>
-                  <v-list-item-title>{{i.name}}</v-list-item-title>
-                  <v-list-item-subtitle
-                  virtical-align="center"
-                  >
-                    <v-row
+                    <v-img
+                        max-width="32px"
+                        min-width="32px"
+                        max-height="32px"
+                        min-height="32px"
+                        :src="`https://cdn.privatelaw.net/icons/`+i.name+`.png`"
                     >
-                      <v-col
-                          cols="auto"
+                    </v-img>
+                  </v-col>
+                  <v-col>
+                    <v-list-item-title>{{ i.name }}</v-list-item-title>
+                    <v-list-item-subtitle
+                        virtical-align="center"
+                    >
+                      <v-row
                       >
-                        <ChangeMachine
-                        :current-machine="i.machine_name"
-                        :recipe-name="i.name"
+                        <v-col
+                            cols="auto"
                         >
-                        </ChangeMachine>
-                      </v-col>
-                      <v-col
-                      align-self="center"
-                      >
-                        x {{i.amount_factory_required}}
-                      </v-col>
-                    </v-row>
-                  </v-list-item-subtitle>
-                </v-col>
-              </v-row>
-            </v-list-item-content>
+                          <ChangeMachine
+                              :current-machine="i.machine_name"
+                              :recipe-name="i.name"
+                          >
+                          </ChangeMachine>
+                        </v-col>
+                        <v-col
+                            align-self="center"
+                        >
+                          x {{ i.amount_factory_required }}
+                        </v-col>
+                      </v-row>
+                    </v-list-item-subtitle>
+                  </v-col>
+                </v-row>
+              </v-list-item-content>
 
-          </v-list-item>
+            </v-list-item>
 
           </v-list-item-group>
 
@@ -83,16 +99,18 @@
 
       </v-col>
       <v-divider
-          v-model="isAbleToVisualize"
+          v-if="isAbleToVisualize"
           vertical
       ></v-divider>
       <v-col
-      cols="auto">
-        <v-card>
-          {{listSelectedRecipeName}}
-        </v-card>
+      >
+        <ProcessBlockDetail
+          v-if="isAbleToVisualize && listSelectedRecipeObject !== null && listSelectedRecipeName !== null"
+          :selected-recipe-info="listSelectedRecipeObject"
+        />
       </v-col>
     </v-row>
+
   </v-container>
 </template>
 
@@ -100,13 +118,14 @@
 <script>
 import ModifierForms from "@/components/ModifierForms";
 import ChangeMachine from "@/components/ChangeMachine";
+import ProcessBlockDetail from "@/components/ProcessBlockDetail";
 
 const axios = require('axios');
 const apiUrl = "https://a.privatelaw.net";
 const randID = Math.random();
 
 
-function buildForm(Config){
+function buildForm(Config) {
   return {
     rand_id: randID,
     conf: {
@@ -133,47 +152,45 @@ function buildForm(Config){
 // }
 
 export default {
-  name: "asdf",
+  name: "CalcMain",
   data() {
     return {
       selectedRecipe: null,
-      conf:{
+      conf: {
         recipe_name: "string",
         amount: 1,
         mining_research_modifier: 0
       },
       results: {},
       recipeKeyList: [],
-      protoResults: {},
-      pannelOpened: [],
       listSelectedIndex: null,
       listSelectedRecipeName: null,
+      listSelectedRecipeObject: null,
       isTheFormValid: false,
       isAbleToVisualize: false,
     }
   },
   components: {
     ModifierForms,
-    ChangeMachine
+    ChangeMachine,
+    ProcessBlockDetail
   },
-  watch:{
-    listSelectedIndex(){
-      this.listSelectedRecipeName = this.recipeKeyList[this.listSelectedIndex];
+  watch: {
+    listSelectedIndex() {
+      if (this.listSelectedIndex !== null) {
+        this.listSelectedRecipeName = this.recipeKeyList[this.listSelectedIndex];
+        this.listSelectedRecipeObject = this.results.recipe[this.listSelectedRecipeName];
+      }
     }
 
   },
-  computed:{
-
-  },
-  methods:{
-    doSomething(arrg) {
-      console.log('did something'+arrg)
-    },
-
+  computed: {},
+  methods: {
     onGetResultButtonClick() {
       this.conf.recipe_name = this.selectedRecipe;
       this.listSelectedIndex = null;
       this.listSelectedRecipeName = null;
+      this.listSelectedRecipeObject = null;
       this.results = {};
       this.isAbleToVisualize = true;
       this.sendCalcAPIRequest();
@@ -181,7 +198,7 @@ export default {
 
     sendCalcAPIRequest() {
       let pData = buildForm(this.conf)
-      axios.post(apiUrl+"/calc",pData).then(resp => {
+      axios.post(apiUrl + "/calc", pData).then(resp => {
         this.results = resp.data;
         this.updateRecipeKeyList();
       });
@@ -195,26 +212,26 @@ export default {
     //
     // }
 
-    visualizeNewWindow(){
-      let toUrl = apiUrl+"/visualize/"+String(randID);
+    visualizeNewWindow() {
+      let toUrl = apiUrl + "/visualize/" + String(randID);
       // this.isAbleToVisualize = false;
       window.open(toUrl);
     },
 
-    onAutoCompSelect(selectedRecipe){
+    onAutoCompSelect(selectedRecipe) {
       console.log('hi');
       this.selectedRecipe = selectedRecipe;
       console.log(selectedRecipe);
     },
 
-    onEmitThings(onEmitThings) {
-      this.amount = onEmitThings.amount;
-      this.selectedRecipe = onEmitThings.selectedRecipe;
-      this.mining_research_modifier = onEmitThings.miningResearchModifier;
-      this.isTheFormValid = onEmitThings.isTheFormValid;
+    onEmitForm(onEmitForm) {
+      this.conf.amount = onEmitForm.amount;
+      this.selectedRecipe = onEmitForm.selectedRecipe;
+      this.conf.mining_research_modifier = onEmitForm.miningResearchModifier;
+      this.isTheFormValid = onEmitForm.isTheFormValid;
     },
 
-    updateRecipeKeyList(){
+    updateRecipeKeyList() {
       this.recipeKeyList = Object.keys(this.results.recipe);
     }
 
