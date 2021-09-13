@@ -1,24 +1,7 @@
-# fcpw
+# factorioCalcPyWeb
 
-## Project setup
-```
-npm install
-```
+Web front-end of [factorioCalcPy](https://github.com/kshshkim/factorioCalcPy).
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+[factorioCalcPy](https://github.com/kshshkim/factorioCalcPy)의 웹 프론트엔드입니다.
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+demo link: https://fc.privatelaw.net
