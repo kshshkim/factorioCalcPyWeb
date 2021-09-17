@@ -1,5 +1,7 @@
 <template>
-  <v-menu offset-y>
+  <v-menu
+      offset-y
+  >
     <template v-slot:activator="{ on, attrs }">
       <v-btn
           v-bind="attrs"
@@ -22,16 +24,20 @@
       <v-list-item
           v-for="machine in availableMachineList"
           :key="machine"
+
       >
-        <v-img
-            align="center"
-            max-width="24px"
-            min-width="16px"
-            max-height="24px"
-            min-height="16px"
-            :src="iconUrl(machine)"
+        <v-list-item-title
+        align="center"
         >
-        </v-img>
+          <v-img
+              max-width="24px"
+              min-width="16px"
+              max-height="24px"
+              min-height="16px"
+              :src="iconUrl(machine)"
+          >
+          </v-img>
+        </v-list-item-title>
       </v-list-item>
     </v-list>
   </v-menu>
@@ -51,6 +57,7 @@ export default {
   data() {
     return {
       availableMachineList: [],
+      selectedMachine: this.currentMachine
     }
   },
   watch: {
