@@ -64,7 +64,6 @@ export default {
           .catch(err => {
             console.log(err)
           })
-      // .finally(() => (this.isLoading = false))
     },
     selectedRecipe(){
       this.$emit("onAutoCompSelect", this.selectedRecipe);

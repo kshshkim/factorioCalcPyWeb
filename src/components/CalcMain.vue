@@ -233,9 +233,7 @@ export default {
     },
 
     onAutoCompSelect(selectedRecipe) {
-      console.log('hi');
       this.selectedRecipe = selectedRecipe;
-      console.log(selectedRecipe);
     },
 
     onEmitForm(onEmitForm) {
