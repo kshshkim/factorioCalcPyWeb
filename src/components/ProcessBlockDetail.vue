@@ -16,7 +16,7 @@
               min-width="32px"
               max-height="32px"
               min-height="32px"
-              :src="`https://cdn.privatelaw.net/icons/`+SelectedRecipeInfo.name+`.png`"
+              :src="iconUrl(SelectedRecipeInfo.name)"
           >
           </v-img>
         </v-col>
@@ -41,7 +41,7 @@
                 min-width="24px"
                 max-height="24px"
                 min-height="24px"
-                :src="`https://cdn.privatelaw.net/icons/`+SelectedRecipeInfo.machine_name+`.png`"
+                :src="iconUrl(SelectedRecipeInfo.machine_name)"
             >
             </v-img>
           </v-btn>
@@ -66,11 +66,18 @@
 </template>
 
 <script>
+import urls from "@/domainNameAndUrls";
+
 export default {
   name: "ProcessBlockDetail",
   props: {
     SelectedRecipeInfo: Object
   },
+  methods:{
+    iconUrl(name){
+      return urls.iconUrl(name)
+    },
+  }
 }
 </script>
 

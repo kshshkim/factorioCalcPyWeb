@@ -12,7 +12,7 @@
             min-width="16px"
             max-height="24px"
             min-height="16px"
-            :src="`https://cdn.privatelaw.net/icons/`+currentMachine+`.png`"
+            :src="iconUrl(currentMachine)"
             class="pr-0"
         >
         </v-img>
@@ -24,12 +24,12 @@
           :key="machine"
       >
         <v-img
+            align="center"
             max-width="24px"
             min-width="16px"
             max-height="24px"
             min-height="16px"
-            :src="`https://cdn.privatelaw.net/icons/`+machine+`.png`"
-            class="pr-0"
+            :src="iconUrl(machine)"
         >
         </v-img>
       </v-list-item>
@@ -38,8 +38,9 @@
 </template>
 
 <script>
+import urls from "@/domainNameAndUrls";
+const apiUrl = urls.apiUrl;
 const axios = require('axios');
-const apiUrl = "https://a.privatelaw.net";
 
 export default {
   name: "ChangeMachine",
@@ -56,6 +57,9 @@ export default {
 
   },
   methods: {
+    iconUrl(name){
+      return urls.iconUrl(name)
+    },
     getAvailableMachineList(){
       axios.get(apiUrl+'/available_machine_list/'+this.recipeName).then(
           resp => {

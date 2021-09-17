@@ -25,7 +25,7 @@
       <v-img
           max-width="24px"
           max-height="24px"
-          :src="`https://cdn.privatelaw.net/icons/`+item+`.png`"
+          :src="iconUrl(item)"
       >
       </v-img>
       &nbsp; {{ item }}
@@ -35,7 +35,7 @@
         <v-img
             max-width="24px"
             max-height="24px"
-            :src="`https://cdn.privatelaw.net/icons/`+item+`.png`"
+            :src="iconUrl(item)"
         >
         </v-img>
       </v-list-item-icon>
@@ -48,7 +48,8 @@
 </template>
 
 <script>
-const apiUrl = "https://a.privatelaw.net";
+import urls from "@/domainNameAndUrls";
+const apiUrl = urls.apiUrl
 
 export default {
   name: "RecipeSelector",
@@ -76,7 +77,12 @@ export default {
       items: [],
       search: null,
       }
-    }
+    },
+  methods:{
+    iconUrl(name){
+      return urls.iconUrl(name)
+    },
+  }
 }
 
 </script>

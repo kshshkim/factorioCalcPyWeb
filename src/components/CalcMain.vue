@@ -67,7 +67,7 @@
                           min-width="32px"
                           max-height="32px"
                           min-height="32px"
-                          :src="`https://cdn.privatelaw.net/icons/`+i.name+`.png`"
+                          :src="iconUrl(i.name)"
                       >
                       </v-img>
                     </v-col>
@@ -129,10 +129,11 @@
 import ModifierForms from "@/components/ModifierForms";
 import ChangeMachine from "@/components/ChangeMachine";
 import ProcessBlockDetail from "@/components/ProcessBlockDetail";
+import urls from "@/domainNameAndUrls";
 
 const axios = require('axios');
-const apiUrl = "https://a.privatelaw.net";
 const randID = Math.random();
+const apiUrl = urls.apiUrl
 
 
 function buildForm(Config) {
@@ -196,6 +197,9 @@ export default {
   },
   computed: {},
   methods: {
+    iconUrl(name){
+      return urls.iconUrl(name)
+    },
     onGetResultButtonClick() {
       this.conf.recipe_name = this.selectedRecipe;
       this.listSelectedIndex = null;
