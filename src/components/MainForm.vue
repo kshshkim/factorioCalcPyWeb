@@ -9,14 +9,11 @@
             v-model="amount"
             :label="`Amount`"
         >
-
         </v-text-field>
-
         <v-text-field
             v-model="miningResearchModifier"
             :label="`Mining Research modifier`"
         >
-
         </v-text-field>
       </v-form>
     </v-col>
@@ -27,7 +24,7 @@
 import RecipeSelector from "@/components/RecipeSelector";
 
 export default {
-  name: "modifierForms",
+  name: "MainForm",
 
   components: {
     RecipeSelector

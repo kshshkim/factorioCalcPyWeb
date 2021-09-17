@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <modifier-forms @onEmitForm="onEmitForm"/>
+        <main-form @onEmitForm="onEmitForm"/>
       </v-col>
     </v-row>
     <v-row>
@@ -84,6 +84,7 @@
                             <ChangeMachine
                                 :current-machine="i.machine_name"
                                 :recipe-name="i.name"
+                                @onEmitChangedMachine="onEmitChangedMachine"
                             >
                             </ChangeMachine>
                           </v-col>
@@ -114,7 +115,6 @@
             cols="auto"
         >
           <ProcessBlockDetail
-
               v-if="isAbleToVisualize && listSelectedRecipeObject !== null && listSelectedRecipeName !== null"
               :selected-recipe-info="listSelectedRecipeObject"
           />
@@ -126,17 +126,18 @@
 
 
 <script>
-import ModifierForms from "@/components/ModifierForms";
+import MainForm from "@/components/MainForm";
 import ChangeMachine from "@/components/ChangeMachine";
 import ProcessBlockDetail from "@/components/ProcessBlockDetail";
 import urls from "@/domainNameAndUrls";
 
 const axios = require('axios');
 const randID = Math.random();
-const apiUrl = urls.apiUrl
+const apiUrl = urls.apiUrl;
 
 
-function buildForm(Config) {
+function buildForm(Config, Action) {
+
   return {
     rand_id: randID,
     conf: {
@@ -144,10 +145,14 @@ function buildForm(Config) {
       amount: Config.amount,
       mining_research_modifier: Config.mining_research_modifier
     },
-    action: {
-      "action_name": "initialize",
-      "action_detail": {}
-    }
+    action: Action
+  }
+}
+
+function actionForm(actionName, actionDetail={}) {
+  return {
+    action_name: actionName,
+    action_detail: actionDetail
   }
 }
 
@@ -182,7 +187,7 @@ export default {
     }
   },
   components: {
-    ModifierForms,
+    MainForm: MainForm,
     ChangeMachine,
     ProcessBlockDetail
   },
@@ -192,8 +197,7 @@ export default {
         this.listSelectedRecipeName = this.recipeKeyList[this.listSelectedIndex];
         this.listSelectedRecipeObject = this.results.recipe[this.listSelectedRecipeName];
       }
-    }
-
+    },
   },
   computed: {},
   methods: {
@@ -207,15 +211,24 @@ export default {
       this.listSelectedRecipeObject = null;
       this.results = {};
       this.isAbleToVisualize = true;
-      this.sendCalcAPIRequest();
+      this.sendCalcInitRequest();
     },
 
-    sendCalcAPIRequest() {
-      let pData = buildForm(this.conf)
-      axios.post(apiUrl + "/calc", pData).then(resp => {
+    sendCalcApiRequest(Form) {
+      axios.post(apiUrl + "/calc", Form).then(resp => {
         this.results = resp.data;
         this.updateRecipeKeyList();
       });
+    },
+
+    async sendCalcInitRequest() {
+      const initData = buildForm(this.conf, actionForm('initialize'));
+      this.sendCalcApiRequest(initData);
+    },
+
+    async sendCalcMachineChangeRequest(recipeName, machineName) {
+      const mcData = buildForm(this.conf, actionForm('change_machine', {'recipe_name': recipeName, 'machine_name': machineName}));
+      this.sendCalcApiRequest(mcData);
     },
 
     // getAvailableMachineList() {
@@ -245,9 +258,11 @@ export default {
 
     updateRecipeKeyList() {
       this.recipeKeyList = Object.keys(this.results.recipe);
+    },
+
+    onEmitChangedMachine(cm) {
+      this.sendCalcMachineChangeRequest(cm.recipeName, cm.selectedMachineName)
     }
-
-
   },
 }
 </script>
