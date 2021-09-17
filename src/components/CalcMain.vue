@@ -44,7 +44,6 @@
         <v-col
             cols="auto"
         >
-
           <v-card
               tile
           >
@@ -52,7 +51,6 @@
                 v-model="listSelectedIndex"
                 mandatory
             >
-
               <v-list-item
                   v-for="i in results.recipe"
                   :key="i.name"
@@ -113,11 +111,18 @@
         ></v-divider>
         <v-col
             cols="auto"
+            v-if="processBlockDetailVisible"
         >
-          <ProcessBlockDetail
-              v-if="isAbleToVisualize && listSelectedRecipeObject !== null && listSelectedRecipeName !== null"
-              :selected-recipe-info="listSelectedRecipeObject"
-          />
+          <v-container
+            class="pa-0 ma-0"
+            v-for="i in results.recipe"
+            :key="i.name"
+          >
+            <ProcessBlockDetail
+                v-if="listSelectedRecipeName === i.name"
+                :selected-recipe-info="i"
+            />
+          </v-container>
         </v-col>
       </v-row>
     </v-container>
@@ -156,17 +161,6 @@ function actionForm(actionName, actionDetail={}) {
   }
 }
 
-// function changeMachine(rcpName, mcName){
-//   return {
-//     action_name: "change_machine",
-//     action_detail: {
-//       recipe_name: rcpName,
-//       machine_name: mcName
-//     }
-//
-//   }
-// }
-
 export default {
   name: "CalcMain",
   data() {
@@ -177,13 +171,14 @@ export default {
         amount: 1,
         mining_research_modifier: 0
       },
-      results: {},
+      results: {recipe: {}},
       recipeKeyList: [],
       listSelectedIndex: null,
       listSelectedRecipeName: null,
       listSelectedRecipeObject: null,
       isTheFormValid: false,
       isAbleToVisualize: false,
+      processBlockDetailVisible: false,
     }
   },
   components: {
@@ -198,20 +193,27 @@ export default {
         this.listSelectedRecipeObject = this.results.recipe[this.listSelectedRecipeName];
       }
     },
+    listSelectedRecipeObject() {
+        this.processBlockDetailVisible = this.listSelectedRecipeObject !== null;
+    },
   },
   computed: {},
   methods: {
     iconUrl(name){
       return urls.iconUrl(name)
     },
-    onGetResultButtonClick() {
+    async onGetResultButtonClick() {
+      await this.refreshResult();
+      await this.sendCalcInitRequest();
+    },
+
+    refreshResult() {
       this.conf.recipe_name = this.selectedRecipe;
       this.listSelectedIndex = null;
       this.listSelectedRecipeName = null;
       this.listSelectedRecipeObject = null;
       this.results = {};
       this.isAbleToVisualize = true;
-      this.sendCalcInitRequest();
     },
 
     sendCalcApiRequest(Form) {
@@ -230,14 +232,6 @@ export default {
       const mcData = buildForm(this.conf, actionForm('change_machine', {'recipe_name': recipeName, 'machine_name': machineName}));
       this.sendCalcApiRequest(mcData);
     },
-
-    // getAvailableMachineList() {
-    //
-    // },
-
-    // onClickMachineBtn(recipe_name){
-    //
-    // }
 
     visualizeNewWindow() {
       let toUrl = apiUrl + "/visualize/" + String(randID);
@@ -259,14 +253,12 @@ export default {
     updateRecipeKeyList() {
       this.recipeKeyList = Object.keys(this.results.recipe);
     },
-
     onEmitChangedMachine(cm) {
-      this.sendCalcMachineChangeRequest(cm.recipeName, cm.selectedMachineName)
+      this.sendCalcMachineChangeRequest(cm.recipeName, cm.selectedMachineName);
     }
   },
 }
 </script>
 
-<style scoped>
-
+<style>
 </style>
