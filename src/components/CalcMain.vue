@@ -34,14 +34,14 @@
 
     <v-container
         class="mt-3"
-        style="overflow-x:auto; white-space: nowrap;"
+        style="overflow-x:auto;"
+
     >
 
       <v-row
-          class="flex-nowrap"
       >
-
         <v-col
+            style="max-height: 100vh; overflow-y: auto;"
             cols="auto"
         >
           <v-card
@@ -114,10 +114,11 @@
             v-if="processBlockDetailVisible"
         >
           <v-container
-            class="pa-0 ma-0"
+            class="ma-0 pa-0"
             v-for="i in results.recipe"
             :key="i.name"
           >
+<!--            style="padding: 0px; padding-bottom: 78.86px;"-->
             <ProcessBlockDetail
                 v-if="listSelectedRecipeName === i.name"
                 :selected-recipe-info="i"
