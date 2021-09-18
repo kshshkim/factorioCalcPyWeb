@@ -1,5 +1,7 @@
 <template>
-  <v-container>
+  <v-container
+    class="hide-scroll-bar"
+  >
     <v-row>
       <v-col>
         <main-form @onEmitForm="onEmitForm"/>
@@ -33,15 +35,16 @@
     </v-row>
 
     <v-container
-        class="mt-3"
+        class="mt-3 hide-scroll-bar"
         style="overflow-x:auto;"
 
     >
 
       <v-row
-          class="flex-nowrap"
+          class="flex-nowrap hide-scroll-bar"
       >
         <v-col
+            class="hide-scroll-bar"
             style="max-height: 100vh; overflow-y: auto;"
             cols="auto"
         >
@@ -263,4 +266,14 @@ export default {
 </script>
 
 <style>
+.hide-scroll-bar::-webkit-scrollbar {
+  width: 6px;
+}
+.hide-scroll-bar::-webkit-scrollbar-thumb {
+  height: 17%;
+  background-color: rgb(187, 184, 184);
+  border-radius: 15px;
+  /*display: none; !* Chrome, Safari, Opera*!*/
+}
+
 </style>
