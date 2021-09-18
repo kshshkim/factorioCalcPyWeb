@@ -39,6 +39,7 @@
     >
 
       <v-row
+          class="flex-nowrap"
       >
         <v-col
             style="max-height: 100vh; overflow-y: auto;"
