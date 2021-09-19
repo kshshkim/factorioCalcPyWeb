@@ -7,10 +7,10 @@
         <main-form @onEmitForm="onEmitForm"/>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col
-          class="mt-n7"
-      >
+    <v-row
+        class="mt-n7"
+    >
+      <v-col>
         <v-btn
             @click="onGetResultButtonClick"
             :disabled="!isTheFormValid"
@@ -24,7 +24,18 @@
           visualize
         </v-btn>
       </v-col>
-
+      <v-col
+        align="right"
+      >
+        <v-btn>
+          <v-icon>
+            info
+          </v-icon>
+        </v-btn>
+        <MainConf
+          @confChanged="onMainConfChanged"
+        />
+      </v-col>
     </v-row>
     <v-row
         class="mx-0 px-0"
@@ -37,7 +48,6 @@
     <v-container
         class="mt-3 hide-scroll-bar"
         style="overflow-x:auto;"
-
     >
 
       <v-row
@@ -140,6 +150,7 @@ import MainForm from "@/components/MainForm";
 import ChangeMachine from "@/components/ChangeMachine";
 import ProcessBlockDetail from "@/components/ProcessBlockDetail";
 import urls from "@/domainNameAndUrls";
+import MainConf from "@/components/MainConf"
 
 const axios = require('axios');
 const randID = Math.random();
@@ -153,7 +164,9 @@ function buildForm(Config, Action) {
     conf: {
       recipe_name: Config.recipe_name,
       amount: Config.amount,
-      mining_research_modifier: Config.mining_research_modifier
+      mining_research_modifier: Config.mining_research_modifier,
+      use_kovarex: Config.use_kovarex,
+      preferred_machine_list: Config.preferred_machine_list
     },
     action: Action
   }
@@ -174,7 +187,9 @@ export default {
       conf: {
         recipe_name: "string",
         amount: 1,
-        mining_research_modifier: 0
+        mining_research_modifier: 0,
+        use_kovarex: true,
+        preferred_machine_list: []
       },
       results: {recipe: {}},
       recipeKeyList: [],
@@ -189,7 +204,8 @@ export default {
   components: {
     MainForm: MainForm,
     ChangeMachine,
-    ProcessBlockDetail
+    ProcessBlockDetail,
+    MainConf
   },
   watch: {
     listSelectedIndex() {
@@ -260,6 +276,10 @@ export default {
     },
     onEmitChangedMachine(cm) {
       this.sendCalcMachineChangeRequest(cm.recipeName, cm.selectedMachineName);
+    },
+    onMainConfChanged(cc) {
+      this.conf.use_kovarex = cc.useKovarex;
+      this.conf.preferred_machine_list = cc.preferredMachines;
     }
   },
 }
