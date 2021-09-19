@@ -27,11 +27,11 @@
       <v-col
         align="right"
       >
-        <v-btn>
-          <v-icon>
-            info
-          </v-icon>
-        </v-btn>
+<!--        <v-btn>-->
+<!--          <v-icon>-->
+<!--            info-->
+<!--          </v-icon>-->
+<!--        </v-btn>-->
         <MainConf
           @confChanged="onMainConfChanged"
         />
