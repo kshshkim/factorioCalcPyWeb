@@ -63,9 +63,6 @@
                 />
               </v-col>
             </v-row>
-            {{preferredMachines.assemblingMachine}}
-            {{preferredMachines.drill}}
-            {{preferredMachines.furnace}}
           </v-col>
         </v-row>
       </v-card-text>
