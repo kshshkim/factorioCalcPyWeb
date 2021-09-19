@@ -9,6 +9,7 @@
     </v-row>
     <v-row
         class="mt-n7"
+        style="white-space:nowrap;"
     >
       <v-col>
         <v-btn
