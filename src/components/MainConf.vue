@@ -23,6 +23,7 @@
       <v-card-text>
         <v-divider/>
         <v-row
+            class="flex-nowrap hide-scroll-bar"
         >
           <v-col
               class="mt-4"
@@ -43,7 +44,9 @@
           </v-col>
         </v-row>
         <v-divider/>
-        <v-row>
+        <v-row
+            class="flex-nowrap hide-scroll-bar"
+        >
           <v-col
               cols="auto"
               class="mt-4"
@@ -66,7 +69,9 @@
           </v-col>
         </v-row>
         <v-divider/>
-        <v-row>
+        <v-row
+            class="flex-nowrap hide-scroll-bar"
+        >
           <v-col
               cols="auto"
               class="mt-4"
