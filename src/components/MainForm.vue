@@ -10,11 +10,6 @@
             :label="`Amount`"
         >
         </v-text-field>
-        <v-text-field
-            v-model="miningResearchModifier"
-            :label="`Mining Research modifier`"
-        >
-        </v-text-field>
       </v-form>
     </v-col>
   </v-row>
@@ -35,8 +30,6 @@ export default {
       isTheFormValid: false,
       selectedRecipe: null,
       amount: 1,
-      miningResearchModifier: 0,
-
     }
   },
 
@@ -45,21 +38,15 @@ export default {
       this.validateForm();
       this.$emit("onEmitForm", this.onEmitForm());
     },
-    miningResearchModifier() {
-      this.validateForm();
-      this.$emit("onEmitForm", this.onEmitForm());
-    },
     selectedRecipe() {
       this.validateForm();
       this.$emit("onEmitForm", this.onEmitForm());
     },
-
-
   },
 
   methods: {
     validateForm() {
-      if (isNaN(this.amount) === false && this.amount !== '' && isNaN(this.miningResearchModifier) === false && this.miningResearchModifier !== '' && this.selectedRecipe !== null) {
+      if (isNaN(this.amount) === false && this.amount !== '' && this.miningResearchModifier !== '' && this.selectedRecipe !== null) {
         this.isTheFormValid = true;
       } else {
         this.isTheFormValid = false;
@@ -74,7 +61,6 @@ export default {
       return {
         isTheFormValid: this.isTheFormValid,
         amount: Number(this.amount),
-        miningResearchModifier: Number(this.miningResearchModifier),
         selectedRecipe: this.selectedRecipe
       }
     }

@@ -268,7 +268,6 @@ export default {
     onEmitForm(onEmitForm) {
       this.conf.amount = onEmitForm.amount;
       this.selectedRecipe = onEmitForm.selectedRecipe;
-      this.conf.mining_research_modifier = onEmitForm.miningResearchModifier;
       this.isTheFormValid = onEmitForm.isTheFormValid;
     },
 
@@ -281,6 +280,7 @@ export default {
     onMainConfChanged(cc) {
       this.conf.use_kovarex = cc.useKovarex;
       this.conf.preferred_machine_list = cc.preferredMachines;
+      this.conf.mining_research_modifier = cc.miningResearchModifier;
     }
   },
 }

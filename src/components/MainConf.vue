@@ -15,57 +15,94 @@
     </template>
     <v-card
     >
-      <v-card-title>
+      <v-card-title
+          dense
+      >
         Config
       </v-card-title>
       <v-card-text>
-        <v-row>
+        <v-divider/>
+        <v-row
+        >
           <v-col
-              class="my-0 py-3"
+              class="mt-4"
+              cols="auto"
+          >
+            Enable Kovarex Enrichment Process
+          </v-col>
+          <v-spacer/>
+          <v-col
+              cols="auto"
           >
             <v-checkbox
+                color="dark-grey"
+                dense
+                class="mt-4 pa-0"
                 v-model="kovarexEnabled"
-                label="Enable Kovarex Enrichment Process"
             />
-            <v-row><v-divider horizontal/></v-row>
-            <v-row><v-col><div
-            class="subtitle-1"
-            >Preferred Factories</div></v-col></v-row>
-            <v-row>
-              <v-col
-                  class="py-0 my-1"
-              >
-                <machine-group
-                    @selectedMachineChange="preferredMachineChanged"
+          </v-col>
+        </v-row>
+        <v-divider/>
+        <v-row>
+          <v-col
+              cols="auto"
+              class="mt-4"
+          >
+            Mining Research modifier (%)
+          </v-col>
+          <v-spacer/>
+          <v-col
+              cols="4"
+              align-self="center"
+              class="mb-1 pb-1"
+          >
+            <v-text-field
+                dense
+                class="mr-text-field mt-4 mb-0 pa-0"
+                solo-inverted
+                v-model="miningResearchModifier"
+                label="Mining Research modifier (%)"
+            ></v-text-field>
+          </v-col>
+        </v-row>
+        <v-divider/>
+        <v-row>
+          <v-col
+              cols="auto"
+              class="mt-4"
+          >
+            Preferred Factories
+          </v-col>
+          <v-spacer/>
+          <v-col
+              class="mt-4"
+          >
+            <machine-group
+                @selectedMachineChange="preferredMachineChanged"
+                :machine-list="machineLists.assemblingMachine"
+            />
 
-                    :machine-list="machineLists.assemblingMachine"
-                />
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col
-                  class="py-0 my-1"
-              >
-                <machine-group
-                    @selectedMachineChange="preferredMachineChanged"
-                  :machine-list="machineLists.furnace"
-                  />
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col
-                  class="py-0 my-1"
-              >
-                <machine-group
-                    @selectedMachineChange="preferredMachineChanged"
-
-                    :machine-list="machineLists.drill"
-                />
-              </v-col>
-            </v-row>
+            <machine-group
+                @selectedMachineChange="preferredMachineChanged"
+                :machine-list="machineLists.furnace"
+            />
+            <machine-group
+                @selectedMachineChange="preferredMachineChanged"
+                :machine-list="machineLists.drill"
+            />
           </v-col>
         </v-row>
       </v-card-text>
+      <v-card-actions
+      >
+        <v-spacer/>
+        <v-btn
+            text
+            @click="dialogEnabled = false"
+        >
+          Close
+        </v-btn>
+      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
@@ -87,6 +124,7 @@ export default {
         furnace: ["stone-furnace", "steel-furnace", "electric-furnace"],
         drill: ["burner-mining-drill", "electric-mining-drill"],
       },
+      miningResearchModifier: 0,
       preferredMachines: {
         "assemblingMachine": null,
         "furnace": null,
@@ -105,10 +143,13 @@ export default {
         }
       }
     },
-    kovarexEnabled(){
+    kovarexEnabled() {
       this.emitThings();
     },
     preferredMachinesArr() {
+      this.emitThings();
+    },
+    miningResearchModifier() {
       this.emitThings();
     }
   },
@@ -120,10 +161,11 @@ export default {
     preferredMachineChanged(cm) {
       this.selectedMachineName = cm;
     },
-    emitThings(){
+    emitThings() {
       this.$emit("confChanged", {
         preferredMachines: this.preferredMachinesArr,
-        useKovarex: this.kovarexEnabled
+        useKovarex: this.kovarexEnabled,
+        miningResearchModifier: this.miningResearchModifier / 100,
       })
     }
   }
@@ -132,4 +174,8 @@ export default {
 </script>
 
 <style scoped>
+.mr-text-field >>> input {
+  text-align: center;
+}
+
 </style>
